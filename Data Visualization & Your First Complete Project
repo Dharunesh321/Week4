@@ -1,0 +1,49 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = {
+    "Student": ["A", "B", "C", "D", "E", "F", "G", "H"],
+    "Math": [85, 72, 90, 60, 78, 95, 88, 67],
+    "Science": [80, 75, 92, 58, 74, 97, 85, 70],
+    "English": [78, 65, 88, 55, 72, 90, 82, 60]
+}
+
+df = pd.DataFrame(data)
+
+print("Dataset Preview:\n", df.head())
+print("\nSummary Statistics:\n", df.describe())
+
+df["Total"] = df["Math"] + df["Science"] + df["English"]
+df["Average"] = df["Total"] / 3
+
+highest_student = df.loc[df["Average"].idxmax(), "Student"]
+lowest_student = df.loc[df["Average"].idxmin(), "Student"]
+
+print(f"\nTop Performer: {highest_student}")
+print(f"Needs Improvement: {lowest_student}")
+
+avg_scores = df[["Math", "Science", "English"]].mean()
+
+plt.figure(figsize=(7, 4))
+avg_scores.plot(kind="bar")
+plt.title("Average Score per Subject")
+plt.xlabel("Subject")
+plt.ylabel("Average Score")
+plt.show()
+
+plt.figure(figsize=(8, 4))
+for subject in ["Math", "Science", "English"]:
+    plt.plot(df["Student"], df[subject], marker="o", label=subject)
+
+plt.title("Student Score Trend by Subject")
+plt.xlabel("Student")
+plt.ylabel("Score")
+plt.legend()
+plt.show()
+
+print("\n📌 Insights:")
+print("- Math and Science have the highest overall class average (~79).")
+print("- English has the lowest average (~74), meaning students may need extra support.")
+print(f"- Student {highest_student} is the best performer with the highest overall average.")
+print(f"- Student {lowest_student} has the lowest score trend and may need improvement.")
+print("- Performance pattern is consistent: students strong in one subject tend to do well in others.")
